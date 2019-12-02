@@ -4,6 +4,6 @@
 
 
 
-directory = './OurData';
+directory = './Data';
 
 bands = uploadTiff(directory);
