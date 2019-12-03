@@ -2,6 +2,7 @@
 clc
 clear 
 close all
+test 
 
 %% Band information (sentinel-2)
 % B2: blue (10m) 490nm 
