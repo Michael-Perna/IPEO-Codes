@@ -16,5 +16,4 @@ This code are made in the context of the Image Processing for Earth observation.
 | B12| SWIR | (20m) |2190 nm |
 
 
-J'ai fait des changements
 
