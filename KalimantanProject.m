@@ -6,14 +6,12 @@
 
 directory = './Data';
 
+%% Upload image 
+% used double differences
 bands = uploadTiff(directory);
+
 %%
 img = trueColor(bands);
 
-figure
-mapshow(img(1).RGB, 'DisplayType', 'image')
-axis equal tight
-title('True-color (RGB)')
-print('True-color', '-dpng')
 
-Au revoir 
+

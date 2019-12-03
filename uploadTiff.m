@@ -1,5 +1,18 @@
 function bands = uploadTiff(directory)
-% This function upload all .TIFF image in the directory path
+% This function upload all .TIFF image (and converted it into double precision) 
+% present in the given "directory" path.
+%
+% The folder should be structure as follows:
+%       DIRECTORY: -data/
+%                   |__
+%     SUBDFOLDERS:      15-02-2019      16-02-2019
+% DIFFERENTS BANDS:           |__ 2018-03-12, Sentinel-2A L1C, B03.tiff
+%
+%
+% /!\ this code work properly for the images names downloded from EO XX
+%     the last three digit of the bands should given the bands name, as 
+%     B04, otherwise this code is still not adapted to encode the bands
+%     with the rigth name. 
 
 subfolders = dir(directory);    % List all files and folders in directory 
 subfolders(1:2) = [];           % delete the folders '.' and '..'
@@ -26,6 +39,8 @@ for n = 1:length(subfolders)    % For all documents in directory
                 % Add bands to the structure bands
                 bands(n).(BandsName) = geotiffread(abs_path); 
                 
+                % Convert image to double precision
+                bands(n).(BandsName) = im2double(bands(n).(BandsName));
             end
         end        
     end
