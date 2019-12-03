@@ -16,6 +16,8 @@ img = trueColor(bands);
 img = doNDVI(bands, img);
 img = doNDMI(bands, img);
 
+% Plot results
+plotIndices(img);
 
 %% 3. Morphology 
 
