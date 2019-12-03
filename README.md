@@ -14,3 +14,7 @@ This code are made in the context of the Image Processing for Earth observation.
 | B8A | VRE | (20m) |865 nm |
 | B11 | SWIR | (20m) |1610 nm |
 | B12| SWIR | (20m) |2190 nm |
+
+
+J'ai fait des changements
+
