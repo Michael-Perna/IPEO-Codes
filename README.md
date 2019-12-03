@@ -7,7 +7,7 @@ This code are made in the context of the Image Processing for Earth observation.
 | B2 | blue | (10m) | 490nm |
 | B3 |  green | (10m) | 560nm |
 | B4 | red | (10m) | 665 nm |
-| B5 | VRE | (vegetation red edge) | (20m) | 705nm |
+| B5 | VRE | (vegetation red edge) (20m) | 705nm |
 | B6 | VRE | (20m) |740nm | 
 | B7 | VRE | (20m) |783nm |
 | B8 | NIR | (10m) |842nm |
@@ -16,5 +16,4 @@ This code are made in the context of the Image Processing for Earth observation.
 | B12| SWIR | (20m) |2190 nm |
 
 
-J'ai fait des changements
 
