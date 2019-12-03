@@ -14,6 +14,8 @@ directory = './Data';
 %% 2. Bands indices --> vendredi
 img = trueColor(bands);
 img = doNDVI(bands, img);
+img = doNDMI(bands, img);
+
 
 %% 3. Morphology 
 
