@@ -1,13 +1,14 @@
 function [true_color] = trueColor(bands)
+% This function does a true color images from the B04, B03 and B02 bands
 
-
-    for img = 1:length(bands)
+    % Loop for every date
+    for t = 1:length(bands)
         
-        true_color(img).date = bands(img).date;
+        true_color(t).date = bands(t).date;
         
-        true_color(img).RGB(:,:,1) = bands(img).B04;
-        true_color(img).RGB(:,:,2) = bands(img).B03;
-        true_color(img).RGB(:,:,3) = bands(img).B02;
+        true_color(t).RGB(:,:,1) = bands(t).B04;
+        true_color(t).RGB(:,:,2) = bands(t).B03;
+        true_color(t).RGB(:,:,3) = bands(t).B02;
     end
 
 end

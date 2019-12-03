@@ -5,13 +5,23 @@
 %% Set the data directory
 directory = './Data';
 
-%% Upload image 
+%% 0. Upload image 
 % used double differences
 [bands, ~, REFMAT, ~] = uploadTiff(directory);
 
-%%
-img = trueColor(bands);
+%% 1. Histogram matching 
 
-Some changes test
+%% 2. Bands indices --> vendredi
+img = trueColor(bands);
+img = doNDVI(bands, img);
+
+%% 3. Morphology 
+
+%% 4. Difference Image Analysis
+
+%% 6. Accuracy Assesement 
+
+
+
 
 
