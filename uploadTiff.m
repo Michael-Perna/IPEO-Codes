@@ -1,6 +1,8 @@
-function bands = uploadTiff(directory)
-% This function upload all .TIFF image (and converted it into double precision) 
-% present in the given "directory" path.
+function [ bands, CMAP, REFMAT, BBOX ] = uploadTiff(directory)
+% This function upload all .TIFF image with the matlab function geotiffread()  
+% present in the given "directory" path. Additionaly it converted the images
+% it into double precision. Moreover it gives all CMPA, REFMAT and BBOX,
+% please refer to documentation of geotiffread. ("help geotiffread").
 %
 % The folder should be structure as follows:
 %       DIRECTORY: -data/
@@ -36,8 +38,10 @@ for n = 1:length(subfolders)    % For all documents in directory
                 % Name of the band (last three digit of the path)
                 BandsName = files(k).name(end-7:end-5);
                 
-                % Add bands to the structure bands
-                bands(n).(BandsName) = geotiffread(abs_path); 
+                % read .TIFF and add bands to the structure bands
+                [ bands(n).(BandsName), CMAP(n).(BandsName),...
+                  REFMAT(n).(BandsName), BBOX(n).(BandsName) ] ...
+                    = geotiffread(abs_path); 
                 
                 % Convert image to double precision
                 bands(n).(BandsName) = im2double(bands(n).(BandsName));
