@@ -2,6 +2,10 @@ function [] = Histogram_matching(bands)
 % This function does a histogram matching 
 % The 2018 image is used as the reference histogram 
 
+%NEED TO CHANGE CODE TO ONLY INCLUDE PIXELS THAT DO NOT HAVE A VALUE OF 1
+%(THE BORDERS) SO USE ~ SYMBOL (we did this in the classification exercise)
+%--> so it only uses the pixels we want to include (not the 1s)
+
 edit=1;                 %if "edit"=0 no figures
                         %if "edit"=1 show figures
 
@@ -53,13 +57,13 @@ for t = 2:length(bands)
         if edit
             figure
             subplot(1,2,1)
-            mapshow(new, refmat)
+            mapshow(new, REFMAT)
             axis equal tight
             xlabel('col')
             ylabel('row')
             title('2019')
             subplot(1,2,2)
-            mapshow(new_matched, refmat)
+            mapshow(new_matched, REFMAT)
             axis equal tight
             xlabel('col')
             ylabel('row')
