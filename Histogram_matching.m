@@ -1,17 +1,17 @@
-function [histogram_matching] = histogram_matching(bands)
+function [] = Histogram_matching(bands)
 % This function does a histogram matching 
 % The 2018 image is used as the reference histogram 
 
 edit=1;                 %if "edit"=0 no figures
                         %if "edit"=1 show figures
 
-bands_ref = bands(1)
+bands_ref = bands(1);
                 
 fn = fieldnames(bands);
 for t = 2:length(bands) 
     for b = 2:numel(fn) %Loop for every band 
-        img_ref = bands_ref.(fn{b}) %reference image
-        img_new = bands(t).(fn{b})  %new image that will get equalized 
+        img_ref = bands_ref.(fn{b}); %reference image
+        img_new = bands(t).(fn{b});  %new image that will get equalized 
         
         % Compute the histogram and CDF of the reference 
         [counts_ref,x] = imhist(img_ref,65535); 
