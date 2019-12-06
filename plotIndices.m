@@ -1,7 +1,6 @@
 function plotIndices(img, REFMAT)
 % This function plot the differents indices for allimagent
 
-    
     p = 1;  % initialization for subplot
     
     % Loop for every date
