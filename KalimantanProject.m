@@ -11,6 +11,8 @@ directory = './Data';
 
 %% 1. Histogram matching 
 
+Histogram_matching(bands);
+
 %% 2. Bands indices --> vendredi
 img = trueColor(bands);
 img = doNDVI(bands, img);
