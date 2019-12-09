@@ -11,9 +11,12 @@ function [] = Histogram_matching(bands, edit)
 
 bands_ref = bands(1);
                 
-fn = fieldnames(bands);
+fn = fieldnames(bands); 
+
+% Loop for every no-reference images
 for t = 2:length(bands) 
-    for b = 2:numel(fn) %Loop for every band 
+    % Loop for every no-reference 
+    for b = 2:numel(fn)  
         img_ref = bands_ref.(fn{b}); %reference image
         img_new = bands(t).(fn{b});  %new image that will get equalized 
         
