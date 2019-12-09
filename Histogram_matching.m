@@ -1,4 +1,4 @@
-function [] = Histogram_matching(bands)
+function [] = Histogram_matching(bands, edit)
 % This function does a histogram matching 
 % The 2018 image is used as the reference histogram 
 
@@ -6,8 +6,8 @@ function [] = Histogram_matching(bands)
 %(THE BORDERS) SO USE ~ SYMBOL (we did this in the classification exercise)
 %--> so it only uses the pixels we want to include (not the 1s)
 
-edit=1;                 %if "edit"=0 no figures
-                        %if "edit"=1 show figures
+% edit                 %if "edit"=0 no figures
+                       %if "edit"=1 show figures
 
 bands_ref = bands(1);
                 
@@ -18,7 +18,7 @@ for t = 2:length(bands)
         img_new = bands(t).(fn{b});  %new image that will get equalized 
         
         % Compute the histogram and CDF of the reference 
-        [counts_ref,x] = imhist(img_ref,65535); 
+        [counts_ref,~] = imhist(img_ref,65535); 
         cdf_ref = cumsum(counts_ref,1) / sum(counts_ref,1);
         
         % plot the CDF function of the reference
@@ -30,7 +30,7 @@ for t = 2:length(bands)
         end 
         
         % Compute the histogram and CDF of the image to be equalized  
-        [counts_new,x] = imhist(img_new,65535); 
+        [counts_new,~] = imhist(img_new,65535); 
         cdf_new = cumsum(counts_new,1) / sum(counts_new,1);
         
         % plot the CDF function of the image to be equalized 
