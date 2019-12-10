@@ -1,4 +1,4 @@
-function [] = Histogram_matching(bands, edit)
+function [] = Histogram_matching(bands, edit, REFMAT)
 % This function does a histogram matching 
 % The 2018 image is used as the reference histogram 
 
@@ -9,19 +9,37 @@ function [] = Histogram_matching(bands, edit)
 % edit                 %if "edit"=0 no figures
                        %if "edit"=1 show figures
 
-bands_ref = bands(1);
+
                 
 fn = fieldnames(bands); 
+
+%=========================================================================
+%% Remotion of the black borders
+%=========================================================================
+
+% Loop for every no-reference images
+for t = 1:length(bands) 
+    % Loop for every no-reference 
+    for b = 2:numel(fn) 
+        show = 0;
+        bands(t).(fn{b}) = remove_borders(bands(t).(fn{b}), show);
+    end
+end
+
+%=========================================================================
+%% Histogram Matching
+%=========================================================================
+bands_ref = bands(1);
 
 % Loop for every no-reference images
 for t = 2:length(bands) 
     % Loop for every no-reference 
     for b = 2:numel(fn)  
-        img_ref = bands_ref.(fn{b}); %reference image
-        img_new = bands(t).(fn{b});  %new image that will get equalized 
+        img_ref = bands_ref.(fn{b}); % reference image
+        img_new = bands(t).(fn{b});  % new image that will get equalized 
         
         % Compute the histogram and CDF of the reference 
-        [counts_ref,~] = imhist(img_ref,65535); 
+        [counts_ref,~] = imhist(img_ref(~isnan(img_ref)),65535); 
         cdf_ref = cumsum(counts_ref,1) / sum(counts_ref,1);
         
         % plot the CDF function of the reference
@@ -33,7 +51,7 @@ for t = 2:length(bands)
         end 
         
         % Compute the histogram and CDF of the image to be equalized  
-        [counts_new,~] = imhist(img_new,65535); 
+        [counts_new,~] = imhist(img_new(~isnan(img_new)),65535); 
         cdf_new = cumsum(counts_new,1) / sum(counts_new,1);
         
         % plot the CDF function of the image to be equalized 
@@ -56,24 +74,25 @@ for t = 2:length(bands)
         new_matched = uint8(LUT2(new(:)+1));
         new_matched = reshape(new_matched, size(new,1),size(new,2));
 
-        % Display equalized image
+
+        
+    end 
+end
+                     % Display equalized image
         if edit
             figure
             subplot(1,2,1)
-            mapshow(new, REFMAT)
+            mapshow(new, REFMAT(t).(fn{b}))
             axis equal tight
             xlabel('col')
             ylabel('row')
             title('2019')
+            
             subplot(1,2,2)
-            mapshow(new_matched, REFMAT)
+            mapshow(new_matched, REFMAT(t).(fn{b}))
             axis equal tight
             xlabel('col')
             ylabel('row')
             title('2019 matched to 2018 equalized')
-        end 
-        
-    end 
-end
-                        
+        end            
 end 

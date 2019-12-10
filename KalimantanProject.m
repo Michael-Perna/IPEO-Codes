@@ -24,7 +24,7 @@ directory = './Data';
 
 %% 1. Histogram matching 
 
-% Histogram_matching(bands, edit);
+Histogram_matching(bands, 0, REFMAT);
 
 %% 2. Bands indices --> vendredi
 img = trueColor(bands);
