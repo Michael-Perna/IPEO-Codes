@@ -7,28 +7,19 @@ directory = './Data';
 
 %% 0. Upload image 
 % used double differences
-[images, ~, REFMAT, BBOX] = uploadTiff(directory);
+[images_ref, ~, REFMAT, BBOX] = uploadTiff(directory);
 
-%% 0.1 Region of intrest
-% refmat = makerefmat('RasterSize', size(bands(1).B02), ...
-%     'LatitudeLimits',  [ 6.863818069469999e+04,-3.427046674042370e+04 ], ...
-%     'LongitudeLimits', [ 1.284429739730507e+07,1.294529441923269e+07 ]);
-% 
-% coord.ZoomPalm = [ 1.284429739730507e+07,1.294529441923269e+07; ...
-%                    6.863818069469999e+04,-3.427046674042370e+04 ];
-% coord.ZoomForest = [ 1.284429739730507e+07,1.294529441923269e+07;
-%                      6.863818069469999e+04,-3.427046674042370e+04] ;
-% coord.ZoomDefor = [ 1.284429739730507e+07,1.294529441923269e+07; ...
-%                     6.863818069469999e+04,-3.427046674042370e+04 ];
-
-
+%% Image enhancement 
+images =  enhancement(images_ref);
+plotEnhancement(images_ref, images, time, 'B03')
 %% 1. Histogram matching 
-[cdf, cdf_ref, images_new] = Histogram_matching(images, REFMAT);
+time = 1;
+limits = plotCut(images, time, 'B05');
+[cdf, cdf_ref, images_new] = Histogram_matching(images, limits);
 
 %% 1.1 Plot
-close all
-time = 2;
-plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  time, 'B05')
+
+plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  'B03')
 
 %% 2. Bands indices --> vendredi
 img = trueColor(images);
