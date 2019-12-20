@@ -7,7 +7,7 @@ directory = './Data';
 
 %% 0. Upload image 
 % used double differences
-[bands, ~, REFMAT, BBOX] = uploadTiff(directory);
+[images, ~, REFMAT, BBOX] = uploadTiff(directory);
 
 %% 0.1 Region of intrest
 % refmat = makerefmat('RasterSize', size(bands(1).B02), ...
@@ -23,24 +23,28 @@ directory = './Data';
 
 
 %% 1. Histogram matching 
+[cdf, cdf_ref, images_new] = Histogram_matching(images, REFMAT);
 
-Histogram_matching(bands, 0, REFMAT);
+%% 1.1 Plot
+close all
+time = 2;
+plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  time, 'B05')
 
 %% 2. Bands indices --> vendredi
-img = trueColor(bands);
-img = doNDVI(bands, img);
-img = doNDMI(bands, img);
+img = trueColor(images);
+img = doNDVI(images, img);
+img = doNDMI(images, img);
 
 %% Plot results
 plotIndices(img, REFMAT);
 
 %% 3. Morphology 
-[dilation, closing] = DarkMorphoAnalysis(img);
-[erosion, opening] = LigthMorphoAnalysis(img);
+[dilation, closing] = DarkMorphoAnalysis(badns);
+[erosion, opening] = LigthMorphoAnalysis(images);
 
 %% 3.1 Morphology results 
 time = 1;
-plotMorpho(dilation, closing,'B08', REFMAT, time)  
+%plotMorpho(dilation, closing,'B02', REFMAT, time)  
            
 %% 4. Difference Image Analysis
 
