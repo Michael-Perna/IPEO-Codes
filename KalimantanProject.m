@@ -7,12 +7,11 @@ directory = './Data';
 
 %% 0. Upload image 
 % used double differences
-[images, ~, REFMAT, BBOX] = uploadTiff(directory);
+[images_ref, ~, REFMAT, BBOX] = uploadTiff(directory);
 
 %% Image enhancement 
-
-
-
+images =  enhancement(images_ref);
+plotEnhancement(images_ref, images, time, 'B03')
 %% 1. Histogram matching 
 time = 1;
 limits = plotCut(images, time, 'B05');
