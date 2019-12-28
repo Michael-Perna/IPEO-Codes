@@ -1,4 +1,4 @@
-function limits =  plotCut(images, time, band)
+function plotCut(images, time, band, limits)
 
 %fn = fieldnames(images_new); 
 
@@ -8,15 +8,10 @@ function limits =  plotCut(images, time, band)
         figure
         imshow(images(time).(band))
         axis equal tight
-        xlim([ 1504, 2526 ])
-        ylim([ 242, 2066 ])
+        xlim( limits.x )
+        ylim( limits.y )
         xlabel('col')
         ylabel('row')
-        title(['Band ', band, ' of reference'])
-        
-        limits.x = [ 1504, 2526 ];
-        limits.y = [ 242, 2066 ];
-        
-                
+        title(['Band ', band, ' of reference'])  
        
     end  
