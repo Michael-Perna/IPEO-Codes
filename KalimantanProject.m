@@ -18,16 +18,16 @@ data = './Data';
 %% 1.0 Image enhancement 
 %==========================================================================
 
-% Cut to reduce the effects of clouds on the first image
+% Cut to reduce the effects of clouds on the adjustment of the image
 limits.x = [ 1504, 2526 ];
 limits.y = [ 242, 2066 ];
 
-plotCut(images, time, 'B05', limits);
+plotCut(images_ref, 2, 'B05', limits);
 
-%% Enancement of the contrast
+% Enancement of the contrast
 images =  enhancement(images_ref, limits);
 
-%% Plots
+%% 1.1 Plots
 time = 1;
 plotEnhancement(images_ref, images, time, 'B8A')
 
@@ -37,7 +37,7 @@ plotEnhancement(images_ref, images, time, 'B8A')
 
 [cdf, cdf_ref, images_new] = Histogram_matching(images, limits);
 
-%% 1.1 Plot
+%% 2.1 Plot
 plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  'B03')
 
 %==========================================================================
@@ -48,11 +48,11 @@ images = trueColor(images);
 images = doNDVI(images);
 images = doNDMI(images);
 
-%% Plot results
+%% 3.1 Plot results
 plotIndices(images, REFMAT);
 
 %==========================================================================
- %% 4.0 Morphology 
+%% 4.0 Morphology 
 %==========================================================================
 
 % [dilation, closing] = DarkMorphoAnalysis(badns);
@@ -65,14 +65,15 @@ time = 1;
 %==========================================================================
 %% 5.0 Difference Image Analysis
 %==========================================================================
-
+img(:,:,1) = images(2).NDMI;
+img(:,:,2) = images(2).NDVI;
+img(:,:,3) = images(2).B02;
+img(:,:,4) = images(2).B03;
+img(:,:,5) = images(2).B04;
+SVM_classification(img)
 %==========================================================================
-%% 60. Accuracy Assesement 
+%% 6.0 Accuracy Assesement 
 %==========================================================================
-
-
-
-
 
 
 
