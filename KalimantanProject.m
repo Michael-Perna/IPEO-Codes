@@ -65,12 +65,17 @@ time = 1;
 %==========================================================================
 %% 5.0 Difference Image Analysis
 %==========================================================================
-img(:,:,1) = images(2).NDMI;
-img(:,:,2) = images(2).NDVI;
-img(:,:,3) = images(2).B02;
-img(:,:,4) = images(2).B03;
-img(:,:,5) = images(2).B04;
-SVM_classification(img)
+img(:,:,1) = images(1).NDMI;
+% img(:,:,2) = images(1).NDVI;
+% img(:,:,3) = images(1).B02;
+% img(:,:,4) = images(1).B03;
+% img(:,:,5) = images(1).B04;
+%read shape file
+roi{1,1} = shaperead('./Deforestation/Clouds_2018.shp');
+roi{2,1} = shaperead('./Deforestation/Forest_2018.shp');
+roi{3,1} = shaperead('./Deforestation/Deforestation_2018.shp');
+labels = [1;2;3];
+SVM_classification(img, roi, labels);
 %==========================================================================
 %% 6.0 Accuracy Assesement 
 %==========================================================================

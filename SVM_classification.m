@@ -1,4 +1,4 @@
-function [] = SVM_classification(img) 
+function [class_svm] = SVM_classification(img, roi, labels) 
 % Exercise 4B - Supervised classification
 % Version: adapted version of the Exercice 4B October 31, 2017
 % Author(s): Matthew Parkan, Pinar Akyazi, Frank de Morsier
@@ -13,17 +13,12 @@ function [] = SVM_classification(img)
     [x,y] = pixcenters(R);
     % Convert x,y arrays to grid:
     [X,Y] = meshgrid(x,y);
-    %read shape file
-    roi{1,1} = shaperead('./Deforestation/Clouds_2018.shp');
-    roi{2,1} = shaperead('./Deforestation/Forest_2018.shp');
-    roi{3,1} = shaperead('./Deforestation/Deforestation_2018.shp');
 
     % Remove trailing nan from shapefile
     mask = zeros(size(X,1),size(X,2), length(roi));
     mask_new = zeros(size(X,1),size(X,2),length(roi));
 
-    labels = [1;2;3];
-    for r = 1:length(roi)-1
+    for r = 1:length(roi)
             for p = 1:length(roi{r})
                 rx = roi{r}(p).X(1:end-1);
                 ry = roi{r}(p).Y(1:end-1);
@@ -50,7 +45,7 @@ function [] = SVM_classification(img)
     % concatenate the vector of labels
     label_roi = [];
 
-    for r = 1:length(labels)-1 % for each polygon
+    for r = 1:length(labels) % for each polygon
 
         % Create a vector with the label of the polygon class
         % HERE YOUR CODE: label_roi = [label_roi; repmat(labels(c),....
@@ -60,13 +55,13 @@ function [] = SVM_classification(img)
 
     % Split into training and testing samples to evaluate performances
     trainID = 1:10:length(label_roi);
-    testID = setdiff(1:length(label_roi),trainID);
+%     testID = setdiff(1:length(label_roi),trainID);
 
     % Subsample the training and the validation (test) data + labels
     data_train = data_roi(trainID,:);
     label_train = label_roi(trainID);
 
-    data_valid = data_roi(testID,:);
+%     data_valid = data_roi(testID,:);
 %     label_valid = label_roi(testID);
 
 
@@ -97,7 +92,10 @@ function [] = SVM_classification(img)
     % (split the training data in order to train and test on different samples and tune correctly the parameters) 
     % HERE ENTER YOUR CODE: model_svm_cv = crossval(...
     model_svm_cv = crossval(model_svm);
-
+%==========================================================================
+%% Classification
+%==========================================================================
+ 
     % Classifying entire image
     % HERE ENTER YOUR CODE: class_svm = predict(...
     class_svm = predict(model_svm_cv.Trained{1}, data_sc);
