@@ -1,4 +1,4 @@
-function plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  band)
+function plotHistMatch(cdf_ref, cdf, images_ref, images, band)
 
 
     % plot the CDF function of the reference
@@ -24,14 +24,16 @@ function plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  band)
     
         figure
         subplot(1,2,1)
-        mapshow(images(1).(band), REFMAT(1).(band))
+        H = imshow(images_ref(1).(band), 'InitialMagnification', 10000);
+        set(H, 'AlphaData', ~isnan(images_ref(1).(band)))
         axis equal tight
         xlabel('col')
         ylabel('row')
         title(['Band ', band, ' of reference'])
         
         subplot(1,2,2)
-        mapshow(images_new(2).(band), REFMAT(2).(band))
+        H = imshow(images(2).(band), 'InitialMagnification', 10000);
+        set(H, 'AlphaData', ~isnan(images(2).(band)))
         axis equal tight
         xlabel('col')
         ylabel('row')
@@ -40,14 +42,16 @@ function plotHistMatch(cdf_ref, cdf, images, images_new, REFMAT,  band)
         
         figure
         subplot(1,2,1)
-        mapshow(images(2).(band), REFMAT(2).(band))
+        H = imshow(images_ref(2).(band), 'InitialMagnification', 10000);
+        set(H, 'AlphaData', ~isnan(images_ref(2).(band)))
         axis equal tight
         xlabel('col')
         ylabel('row')
         title([' Band ', band, ' before histogram matching '])
         
         subplot(1,2,2)
-        mapshow(images_new(2).(band), REFMAT(2).(band))
+        H = imshow(images(2).(band), 'InitialMagnification', 10000);
+        set(H, 'AlphaData', ~isnan(images(1).(band)));
         axis equal tight
         xlabel('col')
         ylabel('row')

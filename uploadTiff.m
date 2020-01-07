@@ -1,4 +1,4 @@
-function [ bands, CMAP, REFMAT, BBOX ] = uploadTiff(directory)
+function [ images, CMAP, REFMAT, BBOX ] = uploadTiff(directory)
 % This function upload all .TIFF image with the matlab function geotiffread()  
 % present in the given "directory" path. Additionaly it converted the images
 % it into double precision. Moreover it gives all CMPA, REFMAT and BBOX,
@@ -26,7 +26,7 @@ for n = 1:length(subfolders)    % For all documents in directory
         files = dir(abs_path);  % All geotiff image of a date should be here
         
         % Gives the date for bands from the same date
-        bands(n).date = subfolders(n).name; 
+        images(n).date = subfolders(n).name; 
         
         % loop over al tiff images
         for k = 1:length(files)
@@ -39,14 +39,29 @@ for n = 1:length(subfolders)    % For all documents in directory
                 BandsName = files(k).name(end-7:end-5);
                 
                 % read .TIFF and add bands to the structure bands
-                [ bands(n).(BandsName), CMAP(n).(BandsName),...
+                [ images(n).(BandsName), CMAP(n).(BandsName),...
                   REFMAT(n).(BandsName), BBOX(n).(BandsName) ] ...
                     = geotiffread(abs_path); 
                 
                 % Convert image to double precision
-                bands(n).(BandsName) = im2double(bands(n).(BandsName));
+                images(n).(BandsName) = im2double(images(n).(BandsName));
             end
         end        
+    end
+end
+
+%=========================================================================
+%% Remotion of the black borders
+%=========================================================================
+
+fn = fieldnames(images); 
+
+% Loop for every no-reference images
+for t = 1:length(images) 
+    % Loop for every no-reference 
+    for b = 2:numel(fn) 
+        show = 0;
+        images(t).(fn{b}) = remove_borders(images(t).(fn{b}), show);
     end
 end
 end
