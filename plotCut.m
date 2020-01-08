@@ -8,8 +8,8 @@ function plotCut(images, time, band, limits)
         figure
         imshow(images(time).(band))
         axis equal tight
-        xlim( limits.x )
-        ylim( limits.y )
+        xlim( limits.y )
+        ylim( limits.x )
         xlabel('col')
         ylabel('row')
         title(['Band ', band, ' of reference'])  

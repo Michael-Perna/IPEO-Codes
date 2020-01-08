@@ -1,4 +1,4 @@
-function [model_svm_cv, label_valid, data_valid_sc, dataMax, dataMin] = SVM_training(img, roi, labels) 
+function training = SVM_training(img, roi, labels) 
 % Exercise 4B - Supervised classification
 % Version: adapted version of the Exercice 4B October 31, 2017
 % Author(s): Matthew Parkan, Pinar Akyazi, Frank de Morsier
@@ -11,7 +11,7 @@ labels = 1:length(labels);
 %% Upload polygonal regions of interest (roi) 
 %==========================================================================
     % Get image info:
-    R = geotiffinfo('./Data/2018-03-12/2018-03-12, Sentinel-2A L1C, B03.tiff');
+    R = geotiffinfo('./Data/2019-01-06/2019-01-06, Sentinel-2A L1C, B08');
 
     % Get x,y locations of pixels:
     [x,y] = pixcenters(R);
@@ -20,14 +20,18 @@ labels = 1:length(labels);
 
     % Remove trailing nan from shapefile
     mask = zeros(size(X,1),size(X,2), length(roi));
-    mask_new = zeros(size(X,1),size(X,2),length(roi));
-
-    for r = 1:length(roi)
+%     mask_new = zeros(size(X,1),size(X,2),length(roi));
+    
+    % Prepare parallel computing
+    delete(gcp) % stop any parallel pool started
+    parpool % start parallel pool
+    parfor r = 1:length(roi)
             for p = 1:length(roi{r})
                 rx = roi{r}(p).X(1:end-1);
                 ry = roi{r}(p).Y(1:end-1);
-                mask_new(:,:,r) = inpolygon(X,Y,rx,ry);
-                mask(:,:,r) = mask(:,:,r) + mask_new(:,:,r);
+%                 mask_new(:,:,r) = inpolygon(X,Y,rx,ry);
+%                 mask(:,:,r) = mask(:,:,r) + mask_new(:,:,r);
+                mask(:,:,r) = mask(:,:,r) + inpolygon(X,Y,rx,ry);
             end
     end
     
@@ -75,11 +79,6 @@ labels = 1:length(labels);
     typeNorm = 'minmax'; % use 'std' to rescale to a unit variance and zero mean
     [data_train_sc, dataMax, dataMin] = classificationScaling(double(data_train), [], [], typeNorm);
 
-%     % Rescale accordingly all image pixels
-%     % note: the parameters used on the training pixels are given as arguments in the
-%     % function to rescale accordingly the rest of the pixels
-%     data_sc = classificationScaling(double(data), dataMax, dataMin, typeNorm);
-% 
     % The same for the validation pixels
     data_valid_sc = classificationScaling(double(data_valid), dataMax, dataMin, typeNorm);
 
@@ -92,5 +91,13 @@ labels = 1:length(labels);
     % Performs cross-validation to tune the parameters: crossval() function
     % (split the training data in order to train and test on different samples and tune correctly the parameters) 
     model_svm_cv = crossval(model_svm);
-
+    
+%==========================================================================
+%% Output
+%==========================================================================
+    training.model_svm_cv = model_svm_cv;
+    training.label_valid = label_valid;
+    training.data_valid_sc = data_valid_sc;
+    training.dataMax = dataMax;
+    training.dataMin = dataMin;
 end 

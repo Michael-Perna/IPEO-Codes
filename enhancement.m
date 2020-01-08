@@ -20,21 +20,13 @@ for t = 1:length(images)
         % Histogram equalization
         %==================================================================
 %         images(t).(fn{b}) = histeq(images(t).(fn{b}));
+        
+        %==================================================================
+        % Normalization function
+        %==================================================================
+        %imnorm = @(x) (x - min(x(:))) ./ (max(x(:)) - min(x(:)));
     end
 
 end 
-%=========================================================================
-%% Remotion of the black borders
-%=========================================================================
 
-fn = fieldnames(images); 
-
-% Loop for every no-reference images
-for t = 1:length(images) 
-    % Loop for every no-reference 
-    for b = 2:numel(fn) 
-        show = 0;
-        images(t).(fn{b}) = remove_borders(images(t).(fn{b}), show);
-    end
-end
 end

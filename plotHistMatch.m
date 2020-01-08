@@ -1,6 +1,15 @@
 function plotHistMatch(cdf_ref, cdf, images_ref, images, band)
+%=========================================================================
+%% Remotion of the black borders
+%=========================================================================
+                
 
-
+    show = 0;
+    images_ref(1).(band) = remove_borders(images_ref(1).(band), show);
+    images_ref(2).(band) = remove_borders(images_ref(2).(band), show);
+    images(1).(band) = remove_borders(images(1).(band), show);
+    images(2).(band) = remove_borders(images(2).(band), show);
+    
     % plot the CDF function of the reference
     
         figure

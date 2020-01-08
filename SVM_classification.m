@@ -10,8 +10,8 @@ function [class_svm, accuracy] = SVM_classification(training, img)
     dataMax = training.dataMax;
     dataMin = training.dataMin;
     label_valid = training.label_valid;
-%     data_valid = training.data_valid;
     data_valid_sc = training.data_valid_sc;
+    
 %==========================================================================
 %% Classification
 %==========================================================================
@@ -48,15 +48,6 @@ function [class_svm, accuracy] = SVM_classification(training, img)
     EA_svm = sum(sum(CT_svm_percent,1)*sum(CT_svm_percent,2));
     Ka_svm= (OA_svm - EA_svm)/(1-EA_svm);
     
-%==========================================================================
-%% Visualizing classification map
-%==========================================================================
-    figure
-    imagesc(label2rgb(reshape(class_svm,size(img,1),size(img,2)),'jet'))
-    title('SVM classification ');
-    axis equal tight
-    xlabel('x')
-    ylabel('y')
 
 %==========================================================================
 %% OUTPUt

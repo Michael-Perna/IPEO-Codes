@@ -36,7 +36,7 @@ for n = 1:length(subfolders)    % For all documents in directory
                 abs_path = strcat(files(k).folder,'/', files(k).name);
                 
                 % Name of the band (last three digit of the path)
-                BandsName = files(k).name(end-7:end-5);
+                BandsName = files(k).name(end-6:end-4);
                 
                 % read .TIFF and add bands to the structure bands
                 [ images(n).(BandsName), CMAP(n).(BandsName),...
@@ -50,18 +50,5 @@ for n = 1:length(subfolders)    % For all documents in directory
     end
 end
 
-%=========================================================================
-%% Remotion of the black borders
-%=========================================================================
 
-fn = fieldnames(images); 
-
-% Loop for every no-reference images
-for t = 1:length(images) 
-    % Loop for every no-reference 
-    for b = 2:numel(fn) 
-        show = 0;
-        images(t).(fn{b}) = remove_borders(images(t).(fn{b}), show);
-    end
-end
 end

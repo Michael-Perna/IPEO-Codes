@@ -8,7 +8,7 @@ function images = doNDVI(images)
         % NDVI formula
         images(t).NDVI = ...
             (images(t).B08 - images(t).B04 + eps)./...
-            (images(t).B08 + images(t).B08 + eps)    ;
+            (images(t).B08 + images(t).B04 + eps)    ;
     end
 
 end
